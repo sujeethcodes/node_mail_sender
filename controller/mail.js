@@ -16,7 +16,16 @@ export const sendEmailController = async (req, res) => {
 
     //  Save log to MongoDB
     await saveEmailLog(info);
-    res.status(CODE.EMAIL_SENT_SUCCESS).json({ message: MESSAGES.EMAIL_SENT_SUCCESS, info });
+res.status(CODE.EMAIL_SENT_SUCCESS).json({
+      data: {
+        status: "sent_attempted",  // custom key
+        delivered: info.delivered,
+        error: info.errorText || null
+      }
+    });
+
+
+
 
   } catch (err) {
     console.error("Controller Error:", err.message);
